@@ -1,8 +1,49 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --color-navy: #0f1b35;
+    --color-gold: #d4af37;
+    --color-purple: #6b21a8;
+  }
+  
+  body {
+    transition: all 0.3s ease;
+  }
+  
+  html.dark {
+    color-scheme: dark;
+  }
+}
+
+@layer components {
+  .certificate-script { 
+    font-family: 'Dancing Script', 'Brush Script MT', cursive; 
+  }
+  .certificate-serif { 
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif; 
+  }
+  .certificate-sans { 
+    font-family: 'Helvetica Neue', Arial, sans-serif; 
+  }
+  
+  .glass-effect {
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .dark .glass-effect {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}
 
 @layer base {
   body {
