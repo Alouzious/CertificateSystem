@@ -76,18 +76,47 @@ export const TechDigital: React.FC<CertificateTemplateProps> = ({ template, data
         <div style={{ width: 24, height: 2, backgroundColor: accent, marginLeft: 'auto' }} />
       </div>
 
-      {/* ── LOGO ZONE ── */}
+      {/* ── LOGO ZONE (top) ── */}
       {template.logoPlacement === 'top' && (template.logo1 || template.logo2) && (
         <div
           className="absolute flex items-center justify-between"
-          style={{ top: 26, left: 55, right: 55, height: 56 }}
+          style={{ top: 20, left: 52, right: 52, height: 100 }}
         >
-          {template.logo1
-            ? <img src={template.logo1.url} alt={template.logo1.name} style={{ maxHeight: 50, maxWidth: 120, objectFit: 'contain', filter: 'brightness(0) invert(1) opacity(0.85)' }} />
-            : <div />}
-          {template.logo2
-            ? <img src={template.logo2.url} alt={template.logo2.name} style={{ maxHeight: 50, maxWidth: 120, objectFit: 'contain', filter: 'brightness(0) invert(1) opacity(0.85)' }} />
-            : <div />}
+          {template.logo1 ? (
+            <div style={{
+              width: 80, height: 80, borderRadius: '50%',
+              border: `3px solid ${accent}`,
+              backgroundColor: '#ffffff',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              overflow: 'hidden',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.12)',
+              flexShrink: 0,
+            }}>
+              <img
+                src={template.logo1.url}
+                alt={template.logo1.name}
+                style={{ width: '100%', height: '100%', objectFit: 'contain', padding: 8, boxSizing: 'border-box' }}
+              />
+            </div>
+          ) : <div />}
+
+          {template.logo2 ? (
+            <div style={{
+              width: 80, height: 80, borderRadius: '50%',
+              border: `3px solid ${accent}`,
+              backgroundColor: '#ffffff',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              overflow: 'hidden',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.12)',
+              flexShrink: 0,
+            }}>
+              <img
+                src={template.logo2.url}
+                alt={template.logo2.name}
+                style={{ width: '100%', height: '100%', objectFit: 'contain', padding: 8, boxSizing: 'border-box' }}
+              />
+            </div>
+          ) : <div />}
         </div>
       )}
 
@@ -96,8 +125,8 @@ export const TechDigital: React.FC<CertificateTemplateProps> = ({ template, data
         className="absolute flex flex-col items-center"
         style={{ top: 14, left: 55, right: 55, bottom: 112 }}
       >
-        {/* Spacer */}
-        <div style={{ height: template.logoPlacement === 'top' && (template.logo1 || template.logo2) ? 88 : 38 }} />
+        {/* Fixed spacer for logos - prevents content shift */}
+        <div style={{ height: 100 }} />
 
         {/* Verified badge — clean, no glow */}
         <div style={{ marginBottom: 14 }}>

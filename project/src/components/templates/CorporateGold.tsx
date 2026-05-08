@@ -61,18 +61,47 @@ export const CorporateGold: React.FC<CertificateTemplateProps> = ({ template, da
         </div>
       ))}
 
-      {/* ── LOGO ZONE ── */}
+      {/* ── LOGO ZONE (top) ── */}
       {template.logoPlacement === 'top' && (template.logo1 || template.logo2) && (
         <div
           className="absolute flex items-center justify-between"
-          style={{ top: 28, left: 55, right: 55, height: 58 }}
+          style={{ top: 20, left: 52, right: 52, height: 100 }}
         >
-          {template.logo1
-            ? <img src={template.logo1.url} alt={template.logo1.name} style={{ maxHeight: 52, maxWidth: 120, objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
-            : <div />}
-          {template.logo2
-            ? <img src={template.logo2.url} alt={template.logo2.name} style={{ maxHeight: 52, maxWidth: 120, objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
-            : <div />}
+          {template.logo1 ? (
+            <div style={{
+              width: 80, height: 80, borderRadius: '50%',
+              border: `3px solid ${accent}`,
+              backgroundColor: '#ffffff',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              overflow: 'hidden',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.12)',
+              flexShrink: 0,
+            }}>
+              <img
+                src={template.logo1.url}
+                alt={template.logo1.name}
+                style={{ width: '100%', height: '100%', objectFit: 'contain', padding: 8, boxSizing: 'border-box' }}
+              />
+            </div>
+          ) : <div />}
+
+          {template.logo2 ? (
+            <div style={{
+              width: 80, height: 80, borderRadius: '50%',
+              border: `3px solid ${accent}`,
+              backgroundColor: '#ffffff',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              overflow: 'hidden',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.12)',
+              flexShrink: 0,
+            }}>
+              <img
+                src={template.logo2.url}
+                alt={template.logo2.name}
+                style={{ width: '100%', height: '100%', objectFit: 'contain', padding: 8, boxSizing: 'border-box' }}
+              />
+            </div>
+          ) : <div />}
         </div>
       )}
 
@@ -81,8 +110,8 @@ export const CorporateGold: React.FC<CertificateTemplateProps> = ({ template, da
         className="absolute flex flex-col items-center"
         style={{ top: 14, left: 55, right: 55, bottom: 110 }}
       >
-        {/* Spacer for top bar + logos */}
-        <div style={{ height: template.logoPlacement === 'top' && (template.logo1 || template.logo2) ? 88 : 36 }} />
+        {/* Fixed spacer for logos - prevents content shift */}
+        <div style={{ height: 100 }} />
 
         {/* Gold seal — inline (no absolute, no overlap) */}
         <div style={{ marginBottom: 14 }}>

@@ -52,15 +52,47 @@ export const ClassicElegance: React.FC<CertificateTemplateProps> = ({ template, 
         </div>
       ))}
 
-      {/* ── LOGO ZONE (top, between borders) ── */}
+      {/* ── LOGO ZONE (top) ── */}
       {template.logoPlacement === 'top' && (template.logo1 || template.logo2) && (
-        <div className="absolute flex items-center justify-between" style={{ top: 28, left: 50, right: 50, height: 64 }}>
-          {template.logo1
-            ? <img src={template.logo1.url} alt={template.logo1.name} style={{ maxHeight: 60, maxWidth: 120, objectFit: 'contain' }} />
-            : <div />}
-          {template.logo2
-            ? <img src={template.logo2.url} alt={template.logo2.name} style={{ maxHeight: 60, maxWidth: 120, objectFit: 'contain' }} />
-            : <div />}
+        <div
+          className="absolute flex items-center justify-between"
+          style={{ top: 20, left: 52, right: 52, height: 100 }}
+        >
+          {template.logo1 ? (
+            <div style={{
+              width: 80, height: 80, borderRadius: '50%',
+              border: `3px solid ${accent}`,
+              backgroundColor: '#fff',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              overflow: 'hidden',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.12)',
+              flexShrink: 0,
+            }}>
+              <img
+                src={template.logo1.url}
+                alt={template.logo1.name}
+                style={{ width: '100%', height: '100%', objectFit: 'contain', padding: 8, boxSizing: 'border-box' }}
+              />
+            </div>
+          ) : <div />}
+
+          {template.logo2 ? (
+            <div style={{
+              width: 80, height: 80, borderRadius: '50%',
+              border: `3px solid ${accent}`,
+              backgroundColor: '#fff',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              overflow: 'hidden',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.12)',
+              flexShrink: 0,
+            }}>
+              <img
+                src={template.logo2.url}
+                alt={template.logo2.name}
+                style={{ width: '100%', height: '100%', objectFit: 'contain', padding: 8, boxSizing: 'border-box' }}
+              />
+            </div>
+          ) : <div />}
         </div>
       )}
 
@@ -69,7 +101,8 @@ export const ClassicElegance: React.FC<CertificateTemplateProps> = ({ template, 
         className="absolute flex flex-col items-center"
         style={{ top: 28, left: 50, right: 50, bottom: 120 }}
       >
-        {/* Spacer for logos */}
+        {/* Fixed spacer for logos - prevents content from shifting */}
+        <div style={{ height: 100 }} />
         {template.logoPlacement === 'top' && (template.logo1 || template.logo2) && (
           <div style={{ height: 68 }} />
         )}
