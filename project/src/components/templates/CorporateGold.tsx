@@ -110,8 +110,6 @@ export const CorporateGold: React.FC<CertificateTemplateProps> = ({ template, da
         className="absolute flex flex-col items-center"
         style={{ top: 14, left: 55, right: 55, bottom: 110 }}
       >
-        {/* Fixed spacer for logos - prevents content shift */}
-        <div style={{ height: 100 }} />
 
         {/* Gold seal — inline (no absolute, no overlap) */}
         <div style={{ marginBottom: 14 }}>

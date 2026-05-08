@@ -90,8 +90,6 @@ export const ModernMinimal: React.FC<CertificateTemplateProps> = ({ template, da
         className="absolute flex flex-col justify-center"
         style={{ top: 0, left: 40, right: 40, bottom: 110 }}
       >
-        {/* Top spacer for logos - fixed height to prevent content shift */}
-        <div style={{ height: 100 }} />
 
         {/* CERTIFICATE label */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 18 }}>

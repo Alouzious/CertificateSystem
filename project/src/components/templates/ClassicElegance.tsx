@@ -101,8 +101,6 @@ export const ClassicElegance: React.FC<CertificateTemplateProps> = ({ template, 
         className="absolute flex flex-col items-center"
         style={{ top: 28, left: 50, right: 50, bottom: 120 }}
       >
-        {/* Fixed spacer for logos - prevents content from shifting */}
-        <div style={{ height: 100 }} />
         {template.logoPlacement === 'top' && (template.logo1 || template.logo2) && (
           <div style={{ height: 68 }} />
         )}

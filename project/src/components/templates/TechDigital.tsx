@@ -125,8 +125,6 @@ export const TechDigital: React.FC<CertificateTemplateProps> = ({ template, data
         className="absolute flex flex-col items-center"
         style={{ top: 14, left: 55, right: 55, bottom: 112 }}
       >
-        {/* Fixed spacer for logos - prevents content shift */}
-        <div style={{ height: 100 }} />
 
         {/* Verified badge — clean, no glow */}
         <div style={{ marginBottom: 14 }}>

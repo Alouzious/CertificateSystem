@@ -111,8 +111,6 @@ export const AcademicExcellence: React.FC<CertificateTemplateProps> = ({ templat
         className="absolute flex flex-col items-center"
         style={{ top: 26, left: 52, right: 52, bottom: 112 }}
       >
-        {/* Fixed spacer for logos - prevents content shift */}
-        <div style={{ height: 100 }} />
         <div style={{ height: template.logoPlacement === 'top' && (template.logo1 || template.logo2) ? 90 : 46 }} />
 
         {/* Academic crest — compact */}
