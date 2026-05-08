@@ -3,10 +3,21 @@ import { CertificateTemplate, CertificateRecord } from '../types';
 const TEMPLATES_KEY = 'certificate_templates';
 const RECORDS_KEY = 'certificate_records';
 
+// Migrate template to include signature3 if missing
+const migrateTemplate = (template: any): CertificateTemplate => {
+  if (!template.signature3) {
+    template.signature3 = { name: '', title: '' };
+  }
+  return template;
+};
+
 export const storageUtils = {
   getTemplates: (): CertificateTemplate[] => {
     const data = localStorage.getItem(TEMPLATES_KEY);
-    return data ? JSON.parse(data) : [];
+    if (!data) return [];
+    const templates = JSON.parse(data);
+    // Migrate all templates to include signature3
+    return templates.map(migrateTemplate);
   },
 
   saveTemplates: (templates: CertificateTemplate[]): void => {

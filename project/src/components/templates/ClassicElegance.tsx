@@ -15,123 +15,172 @@ export const ClassicElegance: React.FC<CertificateTemplateProps> = ({ template, 
     script: 'certificate-script',
   }[template.fontFamily] || 'certificate-serif';
 
+  const primary = template.primaryColor || '#0f1b35';
+  const accent = template.accentColor || '#c9a84c';
+  const bg = template.backgroundColor || '#fefcf3';
+
   return (
     <div
       id={id}
-      className="w-[1122px] h-[794px] relative bg-cream border-double border-navy"
-      style={{
-        borderWidth: '12px',
-        backgroundColor: template.backgroundColor || '#fefcf3',
-        color: template.primaryColor || '#0f1b35',
-      }}
+      className="w-[1122px] h-[794px] relative overflow-hidden"
+      style={{ backgroundColor: bg, color: primary, fontFamily: 'Georgia, serif' }}
     >
-      {/* Outer border */}
-      <div className="absolute inset-6 border-4 border-dashed border-navy opacity-60"></div>
-      
+      {/* Outer border — thick double */}
+      <div
+        className="absolute inset-0"
+        style={{ border: `14px double ${primary}` }}
+      />
+      {/* Inner gold hairline */}
+      <div
+        className="absolute"
+        style={{ inset: '20px', border: `2px solid ${accent}` }}
+      />
+
       {/* Corner ornaments */}
-      <div className="absolute top-4 left-4 text-gold text-4xl">✦</div>
-      <div className="absolute top-4 right-4 text-gold text-4xl">✦</div>
-      <div className="absolute bottom-4 left-4 text-gold text-4xl">✦</div>
-      <div className="absolute bottom-4 right-4 text-gold text-4xl">✦</div>
-      
-      {/* Logos */}
-      {template.logoPlacement === 'top' && (
-        <div className="absolute top-8 left-8 right-8 flex justify-between items-center">
-          {template.logo1 && (
-            <img src={template.logo1.url} alt={template.logo1.name} className="h-16 w-16 object-contain" />
-          )}
-          {template.logo2 && (
-            <img src={template.logo2.url} alt={template.logo2.name} className="h-16 w-16 object-contain" />
-          )}
+      {[
+        { top: 6, left: 6 },
+        { top: 6, right: 6 },
+        { bottom: 6, left: 6 },
+        { bottom: 6, right: 6 },
+      ].map((pos, i) => (
+        <div
+          key={i}
+          className="absolute text-3xl leading-none select-none"
+          style={{ ...pos, color: accent, lineHeight: 1 }}
+        >
+          ❧
+        </div>
+      ))}
+
+      {/* ── LOGO ZONE (top, between borders) ── */}
+      {template.logoPlacement === 'top' && (template.logo1 || template.logo2) && (
+        <div className="absolute flex items-center justify-between" style={{ top: 28, left: 50, right: 50, height: 64 }}>
+          {template.logo1
+            ? <img src={template.logo1.url} alt={template.logo1.name} style={{ maxHeight: 60, maxWidth: 120, objectFit: 'contain' }} />
+            : <div />}
+          {template.logo2
+            ? <img src={template.logo2.url} alt={template.logo2.name} style={{ maxHeight: 60, maxWidth: 120, objectFit: 'contain' }} />
+            : <div />}
         </div>
       )}
-      
-      {/* Institution seal/header */}
-      <div className="flex flex-col items-center pt-24 px-16">
-        <div className="w-32 h-32 rounded-full border-4 border-navy flex items-center justify-center mb-8">
-          <div className="w-24 h-24 bg-navy rounded-full flex items-center justify-center text-cream">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2L3.09 8.26L12 22L20.91 8.26L12 2ZM12 4.44L18.18 9.14L12 19.56L5.82 9.14L12 4.44ZM12 6L8 9.5L12 17L16 9.5L12 6Z"/>
-            </svg>
+
+      {/* ── MAIN CONTENT ZONE (y: 28→640) ── */}
+      <div
+        className="absolute flex flex-col items-center"
+        style={{ top: 28, left: 50, right: 50, bottom: 120 }}
+      >
+        {/* Spacer for logos */}
+        {template.logoPlacement === 'top' && (template.logo1 || template.logo2) && (
+          <div style={{ height: 68 }} />
+        )}
+
+        {/* Crest */}
+        <div style={{ marginTop: 16, marginBottom: 12 }}>
+          <div
+            style={{
+              width: 68, height: 68,
+              borderRadius: '50%',
+              border: `3px solid ${primary}`,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              backgroundColor: bg,
+            }}
+          >
+            <div
+              style={{
+                width: 52, height: 52,
+                borderRadius: '50%',
+                backgroundColor: primary,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}
+            >
+              <svg width="30" height="30" viewBox="0 0 24 24" fill={bg}>
+                <path d="M12 2L3.09 8.26L12 22L20.91 8.26L12 2Z" />
+              </svg>
+            </div>
           </div>
         </div>
-        
-        <h1 className={`text-5xl font-bold ${fontClass} mb-4 text-center`}>
+
+        {/* Institution name */}
+        <p style={{ fontSize: 13, letterSpacing: '0.18em', textTransform: 'uppercase', color: primary, marginBottom: 6 }}>
+          {template.institutionName}
+        </p>
+
+        {/* Title */}
+        <h1 style={{ fontSize: 36, fontWeight: 700, textAlign: 'center', color: primary, marginBottom: 8, lineHeight: 1.15 }}>
           {template.title || 'Certificate of Achievement'}
         </h1>
-        
-        <div className="flex items-center mb-6">
-          <div className="w-24 h-0.5 bg-gold"></div>
-          <div className="mx-4 text-gold text-2xl">❋</div>
-          <div className="w-24 h-0.5 bg-gold"></div>
+
+        {/* Gold divider */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+          <div style={{ width: 80, height: 1.5, background: `linear-gradient(to right, transparent, ${accent})` }} />
+          <span style={{ color: accent, fontSize: 18 }}>✦</span>
+          <div style={{ width: 80, height: 1.5, background: `linear-gradient(to left, transparent, ${accent})` }} />
         </div>
-        
-        <p className={`text-xl ${fontClass} mb-8 text-center max-w-2xl`}>
+
+        {/* Prefix */}
+        <p style={{ fontSize: 15, fontStyle: 'italic', marginBottom: 6, color: primary, opacity: 0.85 }}>
           {template.prefixText || 'This is to certify that'}
         </p>
-        
-        <h2 className={`text-4xl font-bold ${fontClass} mb-6 text-center`} style={{ color: template.accentColor || '#d4af37' }}>
+
+        {/* Participant name */}
+        <h2 style={{ fontSize: 38, fontWeight: 700, color: accent, marginBottom: 10, textAlign: 'center', lineHeight: 1.1 }}>
           {data.participantName}
         </h2>
-        
-        <div className="text-center mb-8">
-          <p className={`text-lg ${fontClass} mb-2`}>
-            {template.bodyText || 'has successfully completed the course'}
-          </p>
-          <h3 className={`text-2xl font-semibold ${fontClass} mb-4`}>
-            {data.courseName}
-          </h3>
-          <p className={`text-lg ${fontClass}`}>
-            on {data.completionDate}
-          </p>
-        </div>
-        
-        <p className={`text-lg ${fontClass} text-center mb-8 max-w-2xl`}>
+
+        {/* Body text */}
+        <p style={{ fontSize: 14, textAlign: 'center', marginBottom: 4, maxWidth: 640, lineHeight: 1.6 }}>
+          {template.bodyText || 'has successfully completed the course'}
+        </p>
+
+        {/* Course name */}
+        <h3 style={{ fontSize: 22, fontWeight: 600, textAlign: 'center', marginBottom: 4, color: primary }}>
+          {data.courseName}
+        </h3>
+
+        {/* Date */}
+        <p style={{ fontSize: 13, marginBottom: 14, opacity: 0.75 }}>
+          {new Date(data.completionDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+        </p>
+
+        {/* Footer text */}
+        <p style={{ fontSize: 12, fontStyle: 'italic', textAlign: 'center', maxWidth: 560, lineHeight: 1.55, color: primary, opacity: 0.7 }}>
           {template.footerText || 'In recognition of dedication and achievement in the field of study.'}
         </p>
       </div>
-      
-      {/* Signatures */}
-      <div className="absolute bottom-20 left-16 right-16 flex justify-between items-end">
-        <div className="text-center">
-          {template.signature1.signatureImageUrl && (
-            <img src={template.signature1.signatureImageUrl} alt="Signature 1" className="h-12 w-32 object-contain mb-2" />
-          )}
-          <div className="w-32 h-0.5 bg-navy mb-2"></div>
-          <p className={`text-sm ${fontClass} font-semibold`}>{template.signature1.name}</p>
-          <p className={`text-xs ${fontClass}`}>{template.signature1.title}</p>
+
+      {/* ── SIGNATURES (absolute, bottom 100px zone) ── */}
+      <div
+        className="absolute flex justify-between items-end"
+        style={{ bottom: 44, left: 60, right: 60, height: 72 }}
+      >
+        {[template.signature1, template.signature2, template.signature3].map((sig, i) => (
+          <div key={i} style={{ flex: 1, textAlign: 'center', padding: '0 12px' }}>
+            {sig?.signatureImageUrl && (
+              <img src={sig.signatureImageUrl} alt="" style={{ height: 36, objectFit: 'contain', marginBottom: 4, display: 'block', margin: '0 auto 4px' }} />
+            )}
+            <div style={{ width: 80, height: 1, backgroundColor: primary, margin: '0 auto 4px', opacity: 0.6 }} />
+            <p style={{ fontSize: 11, fontWeight: 600, color: primary }}>{sig?.name || `Signatory ${i + 1}`}</p>
+            <p style={{ fontSize: 10, color: primary, opacity: 0.7, fontStyle: 'italic' }}>{sig?.title || 'Title'}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* ── BOTTOM BAR ── */}
+      <div className="absolute" style={{ bottom: 26, left: 50, right: 50, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+        <div>
+          <p style={{ fontSize: 9, letterSpacing: '0.1em', color: primary, opacity: 0.5, textTransform: 'uppercase' }}>
+            Certificate ID
+          </p>
+          <p style={{ fontSize: 10, fontFamily: 'monospace', color: primary, opacity: 0.65 }}>{data.certificateId}</p>
         </div>
-        
-        <div className="text-center">
-          {template.signature2.signatureImageUrl && (
-            <img src={template.signature2.signatureImageUrl} alt="Signature 2" className="h-12 w-32 object-contain mb-2" />
-          )}
-          <div className="w-32 h-0.5 bg-navy mb-2"></div>
-          <p className={`text-sm ${fontClass} font-semibold`}>{template.signature2.name}</p>
-          <p className={`text-xs ${fontClass}`}>{template.signature2.title}</p>
-        </div>
+        <QRCodeSVG value={data.certificateId} size={44} fgColor={primary} bgColor="transparent" />
       </div>
-      
-      {/* QR Code and Certificate ID */}
-      <div className="absolute bottom-8 right-8 text-center">
-        <QRCodeSVG value={data.certificateId} size={48} />
-        <p className="text-xs mt-1 font-mono">{data.certificateId}</p>
-      </div>
-      
-      {/* Institution name */}
-      <div className="absolute bottom-8 left-8">
-        <p className={`text-sm ${fontClass} font-semibold`}>{template.institutionName}</p>
-      </div>
-      
+
       {/* Bottom logos */}
-      {template.logoPlacement === 'bottom' && (
-        <div className="absolute bottom-20 left-8 right-8 flex justify-between items-center">
-          {template.logo1 && (
-            <img src={template.logo1.url} alt={template.logo1.name} className="h-12 w-12 object-contain" />
-          )}
-          {template.logo2 && (
-            <img src={template.logo2.url} alt={template.logo2.name} className="h-12 w-12 object-contain" />
-          )}
+      {template.logoPlacement === 'bottom' && (template.logo1 || template.logo2) && (
+        <div className="absolute flex items-center justify-between" style={{ bottom: 100, left: 50, right: 50, height: 50 }}>
+          {template.logo1 ? <img src={template.logo1.url} alt="" style={{ maxHeight: 46, maxWidth: 100, objectFit: 'contain' }} /> : <div />}
+          {template.logo2 ? <img src={template.logo2.url} alt="" style={{ maxHeight: 46, maxWidth: 100, objectFit: 'contain' }} /> : <div />}
         </div>
       )}
     </div>

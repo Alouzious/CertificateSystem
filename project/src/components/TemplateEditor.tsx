@@ -22,10 +22,21 @@ const TemplateEditor = ({ template, onSave, onCancel }: TemplateEditorProps) => 
       secondaryColor: '#2c5282',
       accentColor: '#d4af37',
       backgroundColor: '#fefcf3',
-      signatureName: '',
-      signatureTitle: '',
-      logoUrl: '',
+      fontFamily: 'serif',
       borderStyle: 'elegant',
+      logoPlacement: 'top',
+      signature1: {
+        name: '',
+        title: '',
+      },
+      signature2: {
+        name: '',
+        title: '',
+      },
+      signature3: {
+        name: '',
+        title: '',
+      },
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     }

@@ -15,226 +15,199 @@ export const TechDigital: React.FC<CertificateTemplateProps> = ({ template, data
     script: 'certificate-script',
   }[template.fontFamily] || 'certificate-sans';
 
+  const accent = template.accentColor || '#3b82f6';
+  const bg = template.backgroundColor || '#0f172a';
+  const secondary = template.secondaryColor || '#1e293b';
+
   return (
     <div
       id={id}
-      className="w-[1122px] h-[794px] relative text-white"
-      style={{
-        backgroundColor: template.backgroundColor || '#0d1117',
-        backgroundImage: `
-          radial-gradient(circle at 25% 25%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 75% 75%, rgba(0, 212, 255, 0.05) 0%, transparent 50%),
-          linear-gradient(45deg, rgba(0, 212, 255, 0.02) 0%, transparent 100%)
-        `,
-      }}
+      className="w-[1122px] h-[794px] relative overflow-hidden"
+      style={{ backgroundColor: bg, color: '#f1f5f9' }}
     >
-      {/* Grid background pattern */}
-      <div 
-        className="absolute inset-0 opacity-10"
+      {/* Subtle dot-grid background */}
+      <div
+        className="absolute inset-0"
         style={{
-          backgroundImage: `
-            linear-gradient(rgba(0, 212, 255, 0.3) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0, 212, 255, 0.3) 1px, transparent 1px)
-          `,
-          backgroundSize: '40px 40px',
+          backgroundImage: `radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px)`,
+          backgroundSize: '28px 28px',
         }}
-      ></div>
-      
-      {/* Glowing border */}
-      <div 
-        className="absolute inset-4 border-2 rounded-lg"
+      />
+
+      {/* Dark gradient overlay — gives depth */}
+      <div
+        className="absolute inset-0"
         style={{
-          borderColor: template.accentColor || '#00d4ff',
-          boxShadow: `0 0 20px ${template.accentColor || '#00d4ff'}40, inset 0 0 20px ${template.accentColor || '#00d4ff'}20`,
+          background: `radial-gradient(ellipse at 70% 20%, ${secondary}cc 0%, transparent 60%)`,
         }}
-      ></div>
-      
-      {/* Corner elements */}
-      <div className="absolute top-8 left-8 w-8 h-8">
-        <div 
-          className="w-full h-1 mb-2"
-          style={{ backgroundColor: template.accentColor || '#00d4ff' }}
-        ></div>
-        <div 
-          className="w-1 h-6"
-          style={{ backgroundColor: template.accentColor || '#00d4ff' }}
-        ></div>
+      />
+
+      {/* Outer border */}
+      <div className="absolute inset-0" style={{ border: `1.5px solid rgba(255,255,255,0.12)` }} />
+
+      {/* Accent border inset */}
+      <div className="absolute" style={{ inset: '8px', border: `1px solid ${accent}22` }} />
+
+      {/* Top accent bar */}
+      <div
+        className="absolute top-0 left-0 right-0"
+        style={{ height: 4, background: `linear-gradient(90deg, ${bg}, ${accent}, ${bg})` }}
+      />
+
+      {/* Geometric corner brackets — no glow */}
+      {/* Top-left */}
+      <div className="absolute" style={{ top: 18, left: 18 }}>
+        <div style={{ width: 24, height: 2, backgroundColor: accent }} />
+        <div style={{ width: 2, height: 22, backgroundColor: accent }} />
       </div>
-      <div className="absolute top-8 right-8 w-8 h-8">
-        <div 
-          className="w-full h-1 mb-2"
-          style={{ backgroundColor: template.accentColor || '#00d4ff' }}
-        ></div>
-        <div 
-          className="w-1 h-6 ml-auto"
-          style={{ backgroundColor: template.accentColor || '#00d4ff' }}
-        ></div>
+      {/* Top-right */}
+      <div className="absolute" style={{ top: 18, right: 18 }}>
+        <div style={{ width: 24, height: 2, backgroundColor: accent, marginLeft: 'auto' }} />
+        <div style={{ width: 2, height: 22, backgroundColor: accent, marginLeft: 'auto' }} />
       </div>
-      <div className="absolute bottom-8 left-8 w-8 h-8">
-        <div 
-          className="w-1 h-6 mb-2"
-          style={{ backgroundColor: template.accentColor || '#00d4ff' }}
-        ></div>
-        <div 
-          className="w-full h-1"
-          style={{ backgroundColor: template.accentColor || '#00d4ff' }}
-        ></div>
+      {/* Bottom-left */}
+      <div className="absolute" style={{ bottom: 18, left: 18 }}>
+        <div style={{ width: 2, height: 22, backgroundColor: accent }} />
+        <div style={{ width: 24, height: 2, backgroundColor: accent }} />
       </div>
-      <div className="absolute bottom-8 right-8 w-8 h-8">
-        <div 
-          className="w-1 h-6 mb-2 ml-auto"
-          style={{ backgroundColor: template.accentColor || '#00d4ff' }}
-        ></div>
-        <div 
-          className="w-full h-1"
-          style={{ backgroundColor: template.accentColor || '#00d4ff' }}
-        ></div>
+      {/* Bottom-right */}
+      <div className="absolute" style={{ bottom: 18, right: 18 }}>
+        <div style={{ width: 2, height: 22, backgroundColor: accent, marginLeft: 'auto' }} />
+        <div style={{ width: 24, height: 2, backgroundColor: accent, marginLeft: 'auto' }} />
       </div>
-      
-      {/* Logos */}
-      {template.logoPlacement === 'top' && (
-        <div className="absolute top-12 left-16 right-16 flex justify-between items-center">
-          {template.logo1 && (
-            <img src={template.logo1.url} alt={template.logo1.name} className="h-16 w-16 object-contain" />
-          )}
-          {template.logo2 && (
-            <img src={template.logo2.url} alt={template.logo2.name} className="h-16 w-16 object-contain" />
-          )}
+
+      {/* ── LOGO ZONE ── */}
+      {template.logoPlacement === 'top' && (template.logo1 || template.logo2) && (
+        <div
+          className="absolute flex items-center justify-between"
+          style={{ top: 26, left: 55, right: 55, height: 56 }}
+        >
+          {template.logo1
+            ? <img src={template.logo1.url} alt={template.logo1.name} style={{ maxHeight: 50, maxWidth: 120, objectFit: 'contain', filter: 'brightness(0) invert(1) opacity(0.85)' }} />
+            : <div />}
+          {template.logo2
+            ? <img src={template.logo2.url} alt={template.logo2.name} style={{ maxHeight: 50, maxWidth: 120, objectFit: 'contain', filter: 'brightness(0) invert(1) opacity(0.85)' }} />
+            : <div />}
         </div>
       )}
-      
-      {/* Digital badge */}
-      <div className="absolute top-16 left-1/2 transform -translate-x-1/2">
-        <div 
-          className="w-24 h-24 rounded-full border-2 flex items-center justify-center relative"
-          style={{
-            borderColor: template.accentColor || '#00d4ff',
-            boxShadow: `0 0 30px ${template.accentColor || '#00d4ff'}60`,
-          }}
-        >
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" style={{ color: template.accentColor || '#00d4ff' }}>
-            <path d="M9 12L11 14L15 10M21 12C21 16.97 16.97 21 12 21C7.03 21 3 16.97 3 12C3 7.03 7.03 3 12 3C16.97 3 21 7.03 21 12Z"/>
-          </svg>
-          {/* Rotating ring */}
-          <div 
-            className="absolute inset-0 rounded-full border-2 border-transparent animate-spin"
+
+      {/* ── MAIN CONTENT ── */}
+      <div
+        className="absolute flex flex-col items-center"
+        style={{ top: 14, left: 55, right: 55, bottom: 112 }}
+      >
+        {/* Spacer */}
+        <div style={{ height: template.logoPlacement === 'top' && (template.logo1 || template.logo2) ? 88 : 38 }} />
+
+        {/* Verified badge — clean, no glow */}
+        <div style={{ marginBottom: 14 }}>
+          <div
             style={{
-              borderTopColor: template.accentColor || '#00d4ff',
-              animationDuration: '3s',
+              width: 60, height: 60, borderRadius: '50%',
+              border: `2px solid ${accent}`,
+              backgroundColor: `${accent}18`,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}
-          ></div>
+          >
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+              <polyline points="22 4 12 14.01 9 11.01" />
+            </svg>
+          </div>
         </div>
-      </div>
-      
-      {/* Main content */}
-      <div className="flex flex-col items-center pt-44 px-16">
-        <h1 className={`text-5xl font-bold ${fontClass} mb-6 text-center tracking-wide`}>
+
+        {/* Institution */}
+        <p style={{ fontSize: 11, letterSpacing: '0.2em', textTransform: 'uppercase', color: accent, marginBottom: 8, opacity: 0.85 }}>
+          {template.institutionName}
+        </p>
+
+        {/* Title */}
+        <h1
+          className={fontClass}
+          style={{ fontSize: 36, fontWeight: 700, color: '#f1f5f9', textAlign: 'center', marginBottom: 8, lineHeight: 1.15, letterSpacing: '0.01em' }}
+        >
           {template.title || 'Digital Certificate'}
         </h1>
-        
-        <div className="flex items-center mb-8">
-          <div className="w-16 h-px" style={{ backgroundColor: template.accentColor || '#00d4ff' }}></div>
-          <div className="mx-4 w-2 h-2 rounded-full" style={{ backgroundColor: template.accentColor || '#00d4ff' }}></div>
-          <div className="w-16 h-px" style={{ backgroundColor: template.accentColor || '#00d4ff' }}></div>
+
+        {/* Divider */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+          <div style={{ width: 50, height: 1, backgroundColor: accent, opacity: 0.5 }} />
+          <div style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: accent }} />
+          <div style={{ width: 50, height: 1, backgroundColor: accent, opacity: 0.5 }} />
         </div>
-        
-        <p className={`text-xl ${fontClass} mb-8 text-center font-light tracking-wide`}>
-          {template.prefixText || 'This validates that'}
+
+        {/* Prefix */}
+        <p style={{ fontSize: 14, color: 'rgba(241,245,249,0.6)', marginBottom: 6, fontStyle: 'italic', letterSpacing: '0.02em' }}>
+          {template.prefixText || 'This is to certify that'}
         </p>
-        
-        <h2 
-          className={`text-5xl font-bold ${fontClass} mb-8 text-center tracking-wider`}
-          style={{ color: template.accentColor || '#00d4ff' }}
+
+        {/* Name */}
+        <h2
+          className={fontClass}
+          style={{ fontSize: 40, fontWeight: 700, color: accent, textAlign: 'center', marginBottom: 10, lineHeight: 1.1, letterSpacing: '0.02em' }}
         >
           {data.participantName}
         </h2>
-        
-        <div className="text-center mb-8 space-y-4">
-          <p className={`text-lg ${fontClass} font-light`}>
-            {template.bodyText || 'has successfully completed the technology program'}
-          </p>
-          <h3 className={`text-3xl font-semibold ${fontClass} tracking-wide`}>
-            {data.courseName}
-          </h3>
-          <p className={`text-lg ${fontClass} font-light font-mono`}>
-            {data.completionDate}
-          </p>
-        </div>
-        
-        <p className={`text-lg ${fontClass} text-center mb-8 max-w-3xl font-light leading-relaxed`}>
-          {template.footerText || 'Verified through our secure digital platform. This certificate represents mastery of cutting-edge technology skills.'}
+
+        {/* Body */}
+        <p style={{ fontSize: 14, color: 'rgba(241,245,249,0.7)', textAlign: 'center', marginBottom: 4, maxWidth: 580, lineHeight: 1.55 }}>
+          {template.bodyText || 'has successfully completed the technology program'}
         </p>
-        
-        {/* Tech indicators */}
-        <div className="flex items-center space-x-6 mb-8">
-          <div className="flex items-center space-x-2">
-            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: '#00ff41' }}></div>
-            <span className="text-sm font-mono">VERIFIED</span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: template.accentColor || '#00d4ff' }}></div>
-            <span className="text-sm font-mono">BLOCKCHAIN</span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: '#ff6b6b' }}></div>
-            <span className="text-sm font-mono">SECURE</span>
-          </div>
-        </div>
-        
-        {/* Hash display */}
-        <div className="bg-black bg-opacity-50 rounded px-4 py-2 mb-8">
-          <span className="text-sm font-mono" style={{ color: template.accentColor || '#00d4ff' }}>
-            HASH: {data.certificateId.replace(/-/g, '').toLowerCase()}
-          </span>
-        </div>
-      </div>
-      
-      {/* Signatures */}
-      <div className="absolute bottom-16 left-16 right-16 flex justify-between items-end">
-        <div className="text-center">
-          {template.signature1.signatureImageUrl && (
-            <img src={template.signature1.signatureImageUrl} alt="Signature 1" className="h-12 w-32 object-contain mb-2" />
-          )}
-          <div className="w-32 h-px mb-2" style={{ backgroundColor: template.accentColor || '#00d4ff' }}></div>
-          <p className={`text-sm ${fontClass} font-semibold`} style={{ color: template.accentColor || '#00d4ff' }}>{template.signature1.name}</p>
-          <p className={`text-xs ${fontClass} font-light`}>{template.signature1.title}</p>
-        </div>
-        
-        <div className="text-center">
-          {template.signature2.signatureImageUrl && (
-            <img src={template.signature2.signatureImageUrl} alt="Signature 2" className="h-12 w-32 object-contain mb-2" />
-          )}
-          <div className="w-32 h-px mb-2" style={{ backgroundColor: template.accentColor || '#00d4ff' }}></div>
-          <p className={`text-sm ${fontClass} font-semibold`} style={{ color: template.accentColor || '#00d4ff' }}>{template.signature2.name}</p>
-          <p className={`text-xs ${fontClass} font-light`}>{template.signature2.title}</p>
-        </div>
-      </div>
-      
-      {/* QR Code and Certificate ID */}
-      <div className="absolute bottom-8 right-16 text-center">
-        <div 
-          className="bg-white p-2 rounded border-2"
-          style={{ borderColor: template.accentColor || '#00d4ff' }}
+
+        {/* Course */}
+        <h3
+          className={fontClass}
+          style={{ fontSize: 22, fontWeight: 600, color: '#f1f5f9', textAlign: 'center', marginBottom: 4 }}
         >
-          <QRCodeSVG value={data.certificateId} size={48} />
+          {data.courseName}
+        </h3>
+
+        {/* Date */}
+        <p style={{ fontSize: 13, color: 'rgba(241,245,249,0.55)', marginBottom: 12, fontFamily: 'monospace' }}>
+          {new Date(data.completionDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+        </p>
+
+        {/* Footer */}
+        <p style={{ fontSize: 12, color: 'rgba(241,245,249,0.45)', textAlign: 'center', maxWidth: 520, lineHeight: 1.65, fontStyle: 'italic' }}>
+          {template.footerText || 'Issued in recognition of demonstrated expertise and successful completion of the program.'}
+        </p>
+      </div>
+
+      {/* ── SIGNATURES ── */}
+      <div
+        className="absolute flex justify-between items-end"
+        style={{ bottom: 42, left: 55, right: 55, height: 68 }}
+      >
+        {[template.signature1, template.signature2, template.signature3].map((sig, i) => (
+          <div key={i} style={{ flex: 1, textAlign: 'center', padding: '0 10px' }}>
+            {sig?.signatureImageUrl && (
+              <img src={sig.signatureImageUrl} alt="" style={{ height: 32, objectFit: 'contain', display: 'block', margin: '0 auto 4px', filter: 'brightness(0) invert(1) opacity(0.8)' }} />
+            )}
+            <div style={{ width: 80, height: 1, backgroundColor: accent, margin: '0 auto 5px', opacity: 0.5 }} />
+            <p style={{ fontSize: 11, fontWeight: 600, color: accent }}>{sig?.name || `Signatory ${i + 1}`}</p>
+            <p style={{ fontSize: 10, color: 'rgba(241,245,249,0.45)' }}>{sig?.title || 'Title'}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* ── BOTTOM ── */}
+      <div
+        className="absolute flex justify-between items-center"
+        style={{ bottom: 15, left: 55, right: 55 }}
+      >
+        <p style={{ fontSize: 9, letterSpacing: '0.12em', color: accent, opacity: 0.4, textTransform: 'uppercase', fontFamily: 'monospace' }}>
+          ID: {data.certificateId}
+        </p>
+        <div style={{ backgroundColor: '#fff', padding: 3, borderRadius: 2 }}>
+          <QRCodeSVG value={data.certificateId} size={40} fgColor={bg} />
         </div>
-        <p className="text-xs mt-2 font-mono" style={{ color: template.accentColor || '#00d4ff' }}>{data.certificateId}</p>
       </div>
-      
-      {/* Institution name */}
-      <div className="absolute bottom-8 left-16">
-        <p className={`text-sm ${fontClass} font-semibold`} style={{ color: template.accentColor || '#00d4ff' }}>{template.institutionName}</p>
-      </div>
-      
+
       {/* Bottom logos */}
-      {template.logoPlacement === 'bottom' && (
-        <div className="absolute bottom-24 left-16 right-16 flex justify-between items-center">
-          {template.logo1 && (
-            <img src={template.logo1.url} alt={template.logo1.name} className="h-12 w-12 object-contain" />
-          )}
-          {template.logo2 && (
-            <img src={template.logo2.url} alt={template.logo2.name} className="h-12 w-12 object-contain" />
-          )}
+      {template.logoPlacement === 'bottom' && (template.logo1 || template.logo2) && (
+        <div className="absolute flex items-center justify-between" style={{ bottom: 112, left: 55, right: 55, height: 50 }}>
+          {template.logo1 ? <img src={template.logo1.url} alt="" style={{ maxHeight: 46, maxWidth: 110, objectFit: 'contain', filter: 'brightness(0) invert(1) opacity(0.8)' }} /> : <div />}
+          {template.logo2 ? <img src={template.logo2.url} alt="" style={{ maxHeight: 46, maxWidth: 110, objectFit: 'contain', filter: 'brightness(0) invert(1) opacity(0.8)' }} /> : <div />}
         </div>
       )}
     </div>

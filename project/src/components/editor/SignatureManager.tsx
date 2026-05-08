@@ -14,16 +14,19 @@ export const SignatureManager: React.FC<SignatureManagerProps> = ({
   signature,
   onChange,
 }) => {
+  // Provide default signature if undefined
+  const sig = signature || { name: '', title: '' };
+  
   const [activeTab, setActiveTab] = useState<'upload' | 'draw'>('upload');
   const signatureCanvasRef = useRef<SignatureCanvas>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleNameChange = (name: string) => {
-    onChange({ ...signature, name });
+    onChange({ ...sig, name });
   };
 
   const handleTitleChange = (title: string) => {
-    onChange({ ...signature, title });
+    onChange({ ...sig, title });
   };
 
   const handleSignatureUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,7 +41,7 @@ export const SignatureManager: React.FC<SignatureManagerProps> = ({
       reader.onload = () => {
         if (reader.result) {
           onChange({
-            ...signature,
+            ...sig,
             signatureImageUrl: reader.result as string,
           });
         }
@@ -57,7 +60,7 @@ export const SignatureManager: React.FC<SignatureManagerProps> = ({
     if (signatureCanvasRef.current && !signatureCanvasRef.current.isEmpty()) {
       const signatureDataURL = signatureCanvasRef.current.toDataURL();
       onChange({
-        ...signature,
+        ...sig,
         signatureImageUrl: signatureDataURL,
       });
     }
@@ -65,7 +68,7 @@ export const SignatureManager: React.FC<SignatureManagerProps> = ({
 
   const handleRemoveSignature = () => {
     onChange({
-      ...signature,
+      ...sig,
       signatureImageUrl: undefined,
     });
   };
@@ -82,7 +85,7 @@ export const SignatureManager: React.FC<SignatureManagerProps> = ({
           </label>
           <input
             type="text"
-            value={signature.name}
+            value={sig.name}
             onChange={(e) => handleNameChange(e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
             placeholder="Enter name"
@@ -94,7 +97,7 @@ export const SignatureManager: React.FC<SignatureManagerProps> = ({
           </label>
           <input
             type="text"
-            value={signature.title}
+            value={sig.title}
             onChange={(e) => handleTitleChange(e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
             placeholder="Enter title"
@@ -188,14 +191,14 @@ export const SignatureManager: React.FC<SignatureManagerProps> = ({
       )}
 
       {/* Signature preview */}
-      {signature.signatureImageUrl && (
+      {sig.signatureImageUrl && (
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             Current Signature
           </label>
           <div className="relative group">
             <img
-              src={signature.signatureImageUrl}
+              src={sig.signatureImageUrl}
               alt="Signature preview"
               className="w-full h-20 object-contain bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg"
             />

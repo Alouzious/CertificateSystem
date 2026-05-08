@@ -15,143 +15,191 @@ export const CorporateGold: React.FC<CertificateTemplateProps> = ({ template, da
     script: 'certificate-script',
   }[template.fontFamily] || 'certificate-serif';
 
+  const primary = template.primaryColor || '#0f1b35';
+  const accent = template.accentColor || '#c9a84c';
+  const secondary = template.secondaryColor || '#1a2c50';
+  const bg = template.backgroundColor || '#0f1b35';
+
   return (
     <div
       id={id}
-      className="w-[1122px] h-[794px] relative text-white"
+      className="w-[1122px] h-[794px] relative overflow-hidden"
       style={{
-        backgroundColor: template.backgroundColor || '#0f1b35',
-        background: `linear-gradient(135deg, ${template.backgroundColor || '#0f1b35'} 0%, ${template.secondaryColor || '#1a2847'} 100%)`,
+        background: `linear-gradient(155deg, ${bg} 0%, ${secondary} 60%, ${bg} 100%)`,
+        color: '#ffffff',
       }}
     >
-      {/* Gold border */}
-      <div className="absolute inset-4 border-4 border-gold"></div>
-      <div className="absolute inset-6 border border-gold opacity-50"></div>
-      
-      {/* Gold gradient header */}
-      <div 
-        className="absolute top-0 left-0 right-0 h-16"
-        style={{
-          background: `linear-gradient(90deg, ${template.accentColor || '#d4af37'} 0%, ${template.primaryColor || '#ffd700'} 50%, ${template.accentColor || '#d4af37'} 100%)`,
-        }}
-      ></div>
-      
-      {/* Corner decorations */}
-      <div className="absolute top-8 left-8 text-gold text-2xl">◆</div>
-      <div className="absolute top-8 right-8 text-gold text-2xl">◆</div>
-      <div className="absolute bottom-8 left-8 text-gold text-2xl">◆</div>
-      <div className="absolute bottom-8 right-8 text-gold text-2xl">◆</div>
-      
-      {/* Logos */}
-      {template.logoPlacement === 'top' && (
-        <div className="absolute top-20 left-12 right-12 flex justify-between items-center">
-          {template.logo1 && (
-            <img src={template.logo1.url} alt={template.logo1.name} className="h-16 w-16 object-contain" />
-          )}
-          {template.logo2 && (
-            <img src={template.logo2.url} alt={template.logo2.name} className="h-16 w-16 object-contain" />
-          )}
+      {/* Gold top bar */}
+      <div
+        className="absolute top-0 left-0 right-0"
+        style={{ height: 6, background: `linear-gradient(90deg, transparent, ${accent}, ${accent}, transparent)` }}
+      />
+      {/* Gold bottom bar */}
+      <div
+        className="absolute bottom-0 left-0 right-0"
+        style={{ height: 6, background: `linear-gradient(90deg, transparent, ${accent}, ${accent}, transparent)` }}
+      />
+
+      {/* Outer gold border */}
+      <div className="absolute" style={{ inset: '12px', border: `1.5px solid ${accent}`, opacity: 0.7 }} />
+      {/* Inner border */}
+      <div className="absolute" style={{ inset: '18px', border: `0.5px solid ${accent}`, opacity: 0.3 }} />
+
+      {/* Diamond corner marks */}
+      {[
+        { top: 22, left: 22 },
+        { top: 22, right: 22 },
+        { bottom: 22, left: 22 },
+        { bottom: 22, right: 22 },
+      ].map((pos, i) => (
+        <div
+          key={i}
+          className="absolute text-lg select-none"
+          style={{ ...pos, color: accent, lineHeight: 1 }}
+        >
+          ◆
+        </div>
+      ))}
+
+      {/* ── LOGO ZONE ── */}
+      {template.logoPlacement === 'top' && (template.logo1 || template.logo2) && (
+        <div
+          className="absolute flex items-center justify-between"
+          style={{ top: 28, left: 55, right: 55, height: 58 }}
+        >
+          {template.logo1
+            ? <img src={template.logo1.url} alt={template.logo1.name} style={{ maxHeight: 52, maxWidth: 120, objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
+            : <div />}
+          {template.logo2
+            ? <img src={template.logo2.url} alt={template.logo2.name} style={{ maxHeight: 52, maxWidth: 120, objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
+            : <div />}
         </div>
       )}
-      
-      {/* Embossed seal */}
-      <div className="absolute top-24 left-1/2 transform -translate-x-1/2">
-        <div className="w-28 h-28 rounded-full bg-gold flex items-center justify-center shadow-2xl">
-          <div className="w-20 h-20 rounded-full bg-navy flex items-center justify-center text-gold">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2L15.09 8.26L22 9L17 14.74L18.18 22L12 18.77L5.82 22L7 14.74L2 9L8.91 8.26L12 2Z"/>
-            </svg>
+
+      {/* ── MAIN CONTENT ── */}
+      <div
+        className="absolute flex flex-col items-center"
+        style={{ top: 14, left: 55, right: 55, bottom: 110 }}
+      >
+        {/* Spacer for top bar + logos */}
+        <div style={{ height: template.logoPlacement === 'top' && (template.logo1 || template.logo2) ? 88 : 36 }} />
+
+        {/* Gold seal — inline (no absolute, no overlap) */}
+        <div style={{ marginBottom: 14 }}>
+          <div
+            style={{
+              width: 72, height: 72, borderRadius: '50%',
+              background: `radial-gradient(circle at 35% 35%, ${accent}, #8b6914)`,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: `0 2px 8px rgba(0,0,0,0.4)`,
+            }}
+          >
+            <div
+              style={{
+                width: 54, height: 54, borderRadius: '50%',
+                backgroundColor: primary,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}
+            >
+              <svg width="28" height="28" viewBox="0 0 24 24" fill={accent}>
+                <path d="M12 2L15.09 8.26L22 9L17 14.74L18.18 22L12 18.77L5.82 22L7 14.74L2 9L8.91 8.26L12 2Z" />
+              </svg>
+            </div>
           </div>
         </div>
-      </div>
-      
-      {/* Main content */}
-      <div className="flex flex-col items-center pt-36 px-16">
-        <h1 className={`text-5xl font-bold ${fontClass} mb-6 text-center text-gold`}>
+
+        {/* Institution */}
+        <p style={{ fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase', color: accent, marginBottom: 10, opacity: 0.9 }}>
+          {template.institutionName}
+        </p>
+
+        {/* Title */}
+        <h1
+          className={fontClass}
+          style={{ fontSize: 36, fontWeight: 700, color: accent, textAlign: 'center', marginBottom: 10, lineHeight: 1.15 }}
+        >
           {template.title || 'Certificate of Excellence'}
         </h1>
-        
-        <div className="flex items-center mb-8">
-          <div className="w-20 h-0.5 bg-gold"></div>
-          <div className="mx-4 text-gold text-xl">◇</div>
-          <div className="w-20 h-0.5 bg-gold"></div>
+
+        {/* Divider */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+          <div style={{ width: 60, height: 1, backgroundColor: accent, opacity: 0.6 }} />
+          <span style={{ color: accent, fontSize: 14 }}>◇</span>
+          <div style={{ width: 60, height: 1, backgroundColor: accent, opacity: 0.6 }} />
         </div>
-        
-        <p className={`text-xl ${fontClass} mb-8 text-center`}>
+
+        {/* Prefix */}
+        <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.75)', fontStyle: 'italic', marginBottom: 6 }}>
           {template.prefixText || 'This is to certify that'}
         </p>
-        
-        <h2 className={`text-4xl font-bold ${fontClass} mb-6 text-center text-gold`}>
+
+        {/* Name */}
+        <h2
+          className={fontClass}
+          style={{ fontSize: 38, fontWeight: 700, color: accent, textAlign: 'center', marginBottom: 10, lineHeight: 1.1 }}
+        >
           {data.participantName}
         </h2>
-        
-        <div className="text-center mb-8 space-y-3">
-          <p className={`text-lg ${fontClass}`}>
-            {template.bodyText || 'has demonstrated exceptional performance in'}
-          </p>
-          <h3 className={`text-2xl font-semibold ${fontClass} text-gold`}>
-            {data.courseName}
-          </h3>
-          <p className={`text-lg ${fontClass}`}>
-            Completed on {data.completionDate}
-          </p>
-        </div>
-        
-        <p className={`text-lg ${fontClass} text-center mb-8 max-w-2xl`}>
+
+        {/* Body */}
+        <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.8)', textAlign: 'center', marginBottom: 4, maxWidth: 580, lineHeight: 1.55 }}>
+          {template.bodyText || 'has demonstrated exceptional performance in'}
+        </p>
+
+        {/* Course */}
+        <h3
+          className={fontClass}
+          style={{ fontSize: 22, fontWeight: 600, color: '#ffffff', textAlign: 'center', marginBottom: 4 }}
+        >
+          {data.courseName}
+        </h3>
+
+        {/* Date */}
+        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.65)', marginBottom: 12 }}>
+          {new Date(data.completionDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+        </p>
+
+        {/* Footer */}
+        <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.55)', textAlign: 'center', maxWidth: 540, lineHeight: 1.6, fontStyle: 'italic' }}>
           {template.footerText || 'Awarded in recognition of outstanding achievement and professional excellence.'}
         </p>
-        
-        {/* Corporate badge */}
-        <div className="flex items-center space-x-2 mb-6">
-          <div className="w-6 h-6 bg-gold rounded-full"></div>
-          <span className={`text-sm ${fontClass} text-gold font-semibold`}>CERTIFIED PROFESSIONAL</span>
-          <div className="w-6 h-6 bg-gold rounded-full"></div>
+      </div>
+
+      {/* ── SIGNATURES ── */}
+      <div
+        className="absolute flex justify-between items-end"
+        style={{ bottom: 42, left: 55, right: 55, height: 65 }}
+      >
+        {[template.signature1, template.signature2, template.signature3].map((sig, i) => (
+          <div key={i} style={{ flex: 1, textAlign: 'center', padding: '0 10px' }}>
+            {sig?.signatureImageUrl && (
+              <img src={sig.signatureImageUrl} alt="" style={{ height: 32, objectFit: 'contain', display: 'block', margin: '0 auto 4px', filter: 'brightness(0) invert(1)' }} />
+            )}
+            <div style={{ width: 80, height: 1, backgroundColor: accent, margin: '0 auto 5px', opacity: 0.7 }} />
+            <p style={{ fontSize: 11, fontWeight: 600, color: accent }}>{sig?.name || `Signatory ${i + 1}`}</p>
+            <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.55)' }}>{sig?.title || 'Title'}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* ── BOTTOM ── */}
+      <div
+        className="absolute flex justify-between items-center"
+        style={{ bottom: 16, left: 55, right: 55 }}
+      >
+        <p style={{ fontSize: 9, letterSpacing: '0.1em', color: accent, opacity: 0.55, textTransform: 'uppercase' }}>
+          ID: {data.certificateId}
+        </p>
+        <div style={{ backgroundColor: '#fff', padding: 4, borderRadius: 3 }}>
+          <QRCodeSVG value={data.certificateId} size={40} fgColor={primary} />
         </div>
       </div>
-      
-      {/* Signatures */}
-      <div className="absolute bottom-20 left-16 right-16 flex justify-between items-end">
-        <div className="text-center">
-          {template.signature1.signatureImageUrl && (
-            <img src={template.signature1.signatureImageUrl} alt="Signature 1" className="h-12 w-32 object-contain mb-2" />
-          )}
-          <div className="w-32 h-0.5 bg-gold mb-2"></div>
-          <p className={`text-sm ${fontClass} font-semibold text-gold`}>{template.signature1.name}</p>
-          <p className={`text-xs ${fontClass}`}>{template.signature1.title}</p>
-        </div>
-        
-        <div className="text-center">
-          {template.signature2.signatureImageUrl && (
-            <img src={template.signature2.signatureImageUrl} alt="Signature 2" className="h-12 w-32 object-contain mb-2" />
-          )}
-          <div className="w-32 h-0.5 bg-gold mb-2"></div>
-          <p className={`text-sm ${fontClass} font-semibold text-gold`}>{template.signature2.name}</p>
-          <p className={`text-xs ${fontClass}`}>{template.signature2.title}</p>
-        </div>
-      </div>
-      
-      {/* QR Code and Certificate ID */}
-      <div className="absolute bottom-8 right-12 text-center">
-        <div className="bg-white p-2 rounded">
-          <QRCodeSVG value={data.certificateId} size={48} />
-        </div>
-        <p className="text-xs mt-2 font-mono text-gold">{data.certificateId}</p>
-      </div>
-      
-      {/* Institution name */}
-      <div className="absolute bottom-8 left-12">
-        <p className={`text-sm ${fontClass} font-semibold text-gold`}>{template.institutionName}</p>
-      </div>
-      
+
       {/* Bottom logos */}
-      {template.logoPlacement === 'bottom' && (
-        <div className="absolute bottom-28 left-12 right-12 flex justify-between items-center">
-          {template.logo1 && (
-            <img src={template.logo1.url} alt={template.logo1.name} className="h-12 w-12 object-contain" />
-          )}
-          {template.logo2 && (
-            <img src={template.logo2.url} alt={template.logo2.name} className="h-12 w-12 object-contain" />
-          )}
+      {template.logoPlacement === 'bottom' && (template.logo1 || template.logo2) && (
+        <div className="absolute flex items-center justify-between" style={{ bottom: 110, left: 55, right: 55, height: 50 }}>
+          {template.logo1 ? <img src={template.logo1.url} alt="" style={{ maxHeight: 46, maxWidth: 110, objectFit: 'contain', filter: 'brightness(0) invert(1)' }} /> : <div />}
+          {template.logo2 ? <img src={template.logo2.url} alt="" style={{ maxHeight: 46, maxWidth: 110, objectFit: 'contain', filter: 'brightness(0) invert(1)' }} /> : <div />}
         </div>
       )}
     </div>

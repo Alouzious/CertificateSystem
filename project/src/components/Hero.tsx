@@ -35,6 +35,10 @@ export const Hero: React.FC<HeroProps> = ({ onStartCreating, onViewTemplates }) 
       name: 'Prof. Michael Brown',
       title: 'Dean',
     },
+    signature3: {
+      name: 'Mr. James Wilson',
+      title: 'Registrar',
+    },
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   };

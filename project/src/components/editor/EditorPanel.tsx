@@ -442,6 +442,12 @@ export const EditorPanel: React.FC<EditorPanelProps> = ({
               signature={template.signature2}
               onChange={(signature) => onTemplateChange({ ...template, signature2: signature })}
             />
+
+            <SignatureManager
+              label="Signature 3"
+              signature={template.signature3}
+              onChange={(signature) => onTemplateChange({ ...template, signature3: signature })}
+            />
           </div>
         )}
       </div>

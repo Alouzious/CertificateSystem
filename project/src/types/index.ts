@@ -34,6 +34,7 @@ export interface CertificateTemplate {
   logoPlacement: LogoPlacement;
   signature1: SignatureData;
   signature2: SignatureData;
+  signature3: SignatureData;
   createdAt: string;
   updatedAt: string;
 }
